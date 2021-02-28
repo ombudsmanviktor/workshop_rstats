@@ -1,0 +1,186 @@
+---
+title: "Introdução à Análise de Pesquisa Quantitativa"
+author: "Viktor Chagas"
+date: "2020.2"
+output: 
+  prettydoc::html_pretty:
+    theme: cayman
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+### Proposta do curso
+
+**Introdução à ciência de dados e à linguagem R**. Modelagem, transformação e visualização de dados. Raspagem de dados da web. Coleta e análise de dados das mídias sociais via APIs. Análise exploratória de dados com estatísticas descritivas. Funcionamento: O curso tem caráter de oficina. Aulas síncronas serão ministradas quinzenalmente. É necessário ter um computador (desktop ou laptop) com acesso à internet para o curso. Os softwares a serem instalados, todos opensource, serão indicados nas primeiras aulas. Os alunos receberão material de apoio, documentação e scripts com os principais comandos executados a cada semana, de forma assíncrona, por meio de um grupo da disciplina no WhatsApp.
+
+### Recursos do curso
+
+Nosso programa de curso: <https://rpubs.com/viktor/workshop_rstats>
+
+Nosso gitHUB: <https://github.com/ombudsmanviktor/workshop_rstats>
+
+Nosso WhatsApp: <https://chat.whatsapp.com/EHmSwea529FBHOttT3Ft5L>
+
+Nosso Meet: <https://meet.google.com/lookup/gsh4gkdg66>
+
+Nosso Classroom: <https://classroom.google.com/c/MjYxMjQ1MjQ3MDYy>
+
+> Referências:
+> 
+> Aquino, Jakson Alves de. R para cientistas sociais. Ilhéus: Editora da UESC, 2014.
+>
+> Oliveira, Paulo Felipe de; Guerra, Saulo; McDonell, Robert. Ciência de Dados com R: Introdução. Brasília: Editora IBPad, 2018.
+>
+> Wickham, Hadley; Grolemund, Garrett. R para data science. Rio de Janeiro: Alta Books, 2019.
+>
+> R Graph Gallery. <https://www.r-graph-gallery.com/> 
+
+
+### Programa do curso
+
+#### Aula 1 &middot; *Livre* (02/02)
+
+> Semana inaugural (não haverá aula)
+
+
+#### Aula 2 &middot; *Instalação e apresentação do R e R Studio* (09/02, síncrona)
+
+Instalação do R <https://www.r-project.org/>
+
+Instalação do R Studio <https://rstudio.com/products/rstudio/download/#download> 
+
+Solicitação de token do Twitter <https://developer.twitter.com/>
+
+Instalação e requisição de pacotes
+
+Tipos de variáveis (`numeric`, `Date`, `factor`, `ordered`, `character`, `logical`)
+
+Vetores, matrizes, listas e dataframes
+
+Arquivos CSV
+
+Importar e exportar bancos de dados
+
+
+#### Aula 3 &middot; *Livre* (16/02)
+
+> Carnaval (não haverá aula)
+
+
+#### Aula 4 &middot; *Comandos básicos do R* (23/02, aula assíncrona)
+
+Operadores matemáticos e lógicos
+
+Funções
+
+Manipulação de dados (R base)
+
+Tidyverse
+
+
+#### Aula 5 &middot; *dplyr 1* (02/03, aula síncrona)
+
+`filter()`
+
+`arrange()`
+
+`select()`
+
+`mutate()`
+
+`summarize()`
+
+
+#### Aula 6 &middot; *dplyr 2* (09/03, aula assíncrona)
+
+joins
+
+
+#### Aula 7 &middot; *tidyr e stringr* (16/03, aula síncrona)
+
+Tidy data
+
+`gather()`
+
+`spread()`
+
+
+Strings básicos
+
+`str_to_lower()`
+
+`str_to_upper()`
+
+`str_to_title()`
+
+`str_view()` + RegEx
+
+`str_detect()`
+
+`str_replace()`
+
+`str_split()`
+
+
+#### Aula 8 &middot; *Arrumando e manipulando dados* (23/03, aula assíncrona)
+
+dplyr + tidyr + stringr: recapitulação
+
+
+#### Aula 9 &middot; *rtweet e rwhatsapp 1* (30/03, aula síncrona)
+
+Introdução às APIs do Twitter
+
+Coleta de dados do Twitter
+
+*Parse* de dados do WhatsApp
+
+
+#### Aula 10 &middot; *rtweet e rwhatsapp 2* (06/04, aula assíncrona)
+
+Comandos básicos do rtweet
+
+
+#### Aula 11 &middot; *ggplot2 e visualização de dados 1* (13/04, aula síncrona)
+
+Sintaxe ggplot2 e geoms
+
+Barplot
+
+Stacked barplot
+
+Dodge barplot
+
+Scatterplot
+
+Boxplot
+
+
+#### Aula 12 &middot; *ggplot2 e visualização de dados 2* (20/04, aula assíncrona)
+
+Lineplot
+
+Histogram
+
+Heatmap
+
+
+#### Aula 13 &middot; *ggplot2 e visualização de dados 3 + Rmarkdown* (27/04, aula síncrona)
+
+Temas do ggplot2
+
+Análise de correspondência canônica
+
+Exportando imagens
+
+RMarkdown
+
+
+#### Aula 14 &middot; *Encerramento* (04/05, aula síncrona)
+
+Entrega do relatório
+
+
