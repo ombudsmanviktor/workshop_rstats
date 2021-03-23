@@ -48,15 +48,18 @@ bbb21_mensagens
 # Procure quantas vezes Juliette é mencionada nesse conjunto de mensagens.
 
 bbb21_mensagens$text %>% 
-  str_detect("Juliete") %>% 
+  str_detect("Juliette|Juliete|juliette|juliete") %>% 
   sum(TRUE)
 
 bbb21_mensagens %>% 
-  mutate(new_text = str_detect(text, "Juliette")) %>% 
+  mutate(new_text = str_detect(text, "Juliette|Juliete|juliette|juliete")) %>% 
   filter(new_text == "TRUE") %>% 
   count()
 
 # Substitua todas as menções a Bolsonaro (ou bolsonaro ou BOLSONARO) por Bozo
+
+bbb21_mensagens$text <- bbb21_mensagens$text %>% 
+  str_replace("Bolsonaro|bolsonaro|BOLSONARO", "Bozo")
 
 bbb21_mensagens$text <- bbb21_mensagens$text %>% 
   str_replace("Bolsonaro", "Bozo") %>% 
