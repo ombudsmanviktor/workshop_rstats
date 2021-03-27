@@ -10,10 +10,13 @@
 library(rtweet)
 library(rwhatsapp)
 
-
 # rtweet ------------------------------------------------------------------
 
-# Inserir chaves de autenticação ------------------------------------------
+# O rtweet é um pacote desenvolvido por Michael W. Kearney, e que conta
+# com colaborações de Andrew Heiss e Francois Briatte. Para mais informações,
+# consulte: https://docs.ropensci.org/rtweet/
+
+# Inserir chaves de autenticação do Twitter -------------------------------
 
 # API Key: x7dRwr3tRI7oOBeDIaKta49Ga
 # API Key Secret: jicCkpplw7eBEi8kLISgAxFllHgoUuRKYObFbggSaVPnCNPpFU
@@ -33,7 +36,6 @@ token <- create_token(
   consumer_secret = api_secret_key,
   access_token = access_token,
   access_secret = access_token_secret)
-
 
 # Pesquisar tweets por palavras-chaves ------------------------------------
 
@@ -56,11 +58,9 @@ bolsonaro2 <- search_tweets(
 
 bolsonaro3 <- stream_tweets("Bolsonaro, Bozo", timeout = 60)
 
-
 # Pesquisar tweets na timeline de um usuário ------------------------------
 
 karolconka <- get_timeline("karolconka", n = 10)
-
 
 # Pesquisar dados pessoais de usuários (lookup) ---------------------------
 
@@ -69,7 +69,6 @@ partidos <- c("180500907", "39931528","1202130601","1011297899463041028",
               "83835435","26250547","73144615")
 
 infopartidos <- lookup_users(partidos)
-
 
 # Pesquisar seguidores e seguidos -----------------------------------------
 
@@ -86,7 +85,6 @@ museudememes_friends <- get_friends(c("museudememes", "ombudsmanviktor"), n = 10
 
 museudememes <- get_favorites("museudememes", n = 20)
 
-
 # Pesquisar trending topics -----------------------------------------------
 
 # Para pesquisar WOEIDs, utilize o site https://nations24.com/world-wide
@@ -97,8 +95,21 @@ museudememes <- get_favorites("museudememes", n = 20)
 
 trends_br <- get_trends("23424768")
 
+# Exportar dados coletados no Twitter -------------------------------------
+
+# O rtweet tem uma função nativa para exportação dos dados que já realiza
+# o parse do dataframe coletado. A função é semelhante à write.csv, presente
+# no R Base, mas transforma os dados em formato de lista para tabela.
+rtweet::write_as_csv(bolsonaro1, "~/Downloads/coleta_teste.csv")
 
 # YouTube Data Tools ------------------------------------------------------
+
+# O YouTube Data Tools é uma coleção de ferramentas de extração de dados
+# da plataforma do YouTube via YouTube API v3, desenvolvida por 
+# Bernhard Rieder. Para mais informações, consulte:
+# https://github.com/bernorieder/YouTube-Data-Tools
+
+# Importar dados do YouTube -----------------------------------------------
 
 # Acesse o site https://tools.digitalmethods.net/netvizz/youtube/
 
@@ -107,11 +118,49 @@ trends_br <- get_trends("23424768")
 # Informe a ID de algum canal (p.ex. Felipe Neto: UCV306eHqgo0LvBf3Mh36AHg) e baixe os dados
 
 # Importe o arquivo .tab para o R Studio
-
+youtube_data <- file.choose()
 
 # rwhatsapp ---------------------------------------------------------------
 
+# O rwhatsapp é um script desenvolvido por Johannes Gruber para manipulação
+# e parse de dados exportados a partir de chats do WhatsApp. Para mais
+# informações, consulte: https://github.com/JBGruber/rwhatsapp
+
+# Importar dados do WhatsApp ----------------------------------------------
+
+# Salve, no seu computador, o arquivo de texto disponível em: 
+# https://raw.githubusercontent.com/ombudsmanviktor/workshop_rstats/main/aula8/Conversa%20do%20WhatsApp%20com%20Rstats.txt
+
+# Selecione o arquivo salvo no computador local:
+grupo_rstats <- rwa_read(file.choose())
+
+# Ou indique o path diretamente no próprio comando:
+grupo_rstats <- rwa_read(
+  "~/Downloads/Conversa do WhatsApp com Rstats.txt")
 
 
+# EXERCÍCIOS --------------------------------------------------------------
 
+### EXERCÍCIO 1
+
+# Faça uma coleta de dados no Twitter a partir de palavras-chaves específicas,
+# sobre um tema de seu interesse, e envie, em formato CSV, para o restante do
+# grupo no WhatsApp, indicando os parâmetros de sua busca (data, horário,
+# palavras-chaves ou demais argumentos).
+
+### EXERCÍCIO 2
+
+# A partir dos dados que você coletou no exercício anterior,
+# A. Monte uma tabela indicando quais os tweets com maior quantidade de retweets.
+# B. Monte uma tabela indicando quais as fontes (sources) de tweets mais frequentes.
+# C. Monte uma tabela indicando quais os perfis criaram mais tweets.
+
+### EXERCÍCIO 3
+
+# Com base nos dados disponíveis no gitHUB e exportados do WhatsApp,
+# disponíveis no seguinte link: 
+# https://raw.githubusercontent.com/ombudsmanviktor/workshop_rstats/main/aula8/Conversa%20do%20WhatsApp%20com%20Rstats.txt
+
+# A. Monte uma tabela indicando que são os usuários que mais enviam mensagens para o grupo.
+# B. Monte uma tabela indicando quais são os emojis mais utilizados em mensagens.
 
