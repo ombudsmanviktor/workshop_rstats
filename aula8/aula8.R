@@ -112,13 +112,13 @@ rtweet::write_as_csv(bolsonaro1, "~/Downloads/coleta_teste.csv")
 # Importar dados do YouTube -----------------------------------------------
 
 # Acesse o site https://tools.digitalmethods.net/netvizz/youtube/
-
 # Acesse a opção Video List https://tools.digitalmethods.net/netvizz/youtube/mod_videos_list.php
-
 # Informe a ID de algum canal (p.ex. Felipe Neto: UCV306eHqgo0LvBf3Mh36AHg) e baixe os dados
 
+# Ou utilize um pacote de coleta de dados via YouTube Data API, como: https://cran.r-project.org/web/packages/tuber/index.html
+
 # Importe o arquivo .tab para o R Studio
-youtube_data <- file.choose()
+youtube_data <- read.delim(file.choose())
 
 # rwhatsapp ---------------------------------------------------------------
 
