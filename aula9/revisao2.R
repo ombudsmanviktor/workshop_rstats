@@ -115,3 +115,8 @@ grafo <- igraph::graph_from_data_frame(d = edges,
                                        vertices = nodes)
 
 plot(grafo, vertex.label = NA, layout = layout_nicely(grafo))
+
+# Para exportar os dados coletados em formato CSV
+
+write_as_csv(bolsonaro, "~/Downloads/bolsonaro_tweets_teste.csv")
+
