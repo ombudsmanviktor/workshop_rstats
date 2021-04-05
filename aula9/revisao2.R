@@ -14,6 +14,8 @@
 
 # Coleta de dados com rtweet + análise de redes com igraph: https://classroom.google.com/c/MjYxMjQ1MjQ3MDYy/p/MzEyNzg4MDU2NDMw/details
 
+# Coleta de dados com rtweet + exportação em formato CSV: https://classroom.google.com/c/MjYxMjQ1MjQ3MDYy/p/MzIxMDU4OTYxNjc1/details
+
 # Requisição de pacotes
 
 #install.packages("rtweet")
