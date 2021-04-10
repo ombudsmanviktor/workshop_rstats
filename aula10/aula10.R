@@ -189,6 +189,12 @@ pinguins %>%
   geom_bar(aes(x = sex, y = body_mass_g, fill = species), stat = "identity", position = "fill")
   # Empilhamento à mesma altura
 
+pinguins %>% 
+  ggplot() +
+  geom_bar(aes(x = sex, y = body_mass_g, fill = species), stat = "identity") +
+  facet_wrap(~species)
+# Apresentação segmentada por categoria
+
 
 # geom_boxplot() ----------------------------------------------------------
 
