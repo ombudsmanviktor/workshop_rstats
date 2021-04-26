@@ -1,0 +1,142 @@
+---
+title: "Relatório de Pinguins"
+subtitle: Um breve exemplo de relatório a partir da base Palmer Penguins
+author: Viktor Chagas, Universidade Federal Fluminense ^[Professor e pesquisador do
+  Programa de Pós-Graduação em Comunicação da Universidade Federal Fluminense. Doutor
+  em História, Política e Bens Culturais pelo Centro de Pesquisa e Documentação de
+  História Contemporânea do Brasil da Fundação Getulio Vargas. viktor@midia.uff.br]
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+abstract: |
+  Este é um exemplo de relatório de final de curso a ser entregue para a disciplina de Introdução à Análise de Pesquisa Quantitativa, semestre letivo 2020.2, na graduação em Estudos de Mídia.
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(palmerpenguins)
+library(ggplot2)
+```
+
+# Introdução
+
+A base de dados Palmer Penguins é um pacote que se destina a apresentar um *dataset* com algumas variáveis que podem ser úteis para ensinar comandos básicos para análise estatística e ciência de dados. Os dados foram originalmente coletados e tornados disponíveis pela pesquisadora Kristen Gorman e pela Palmer Station Antarctica LTER, que integra a rede Long Term Ecological Research Network.
+
+Os dados com que este relatório trabalha contém 333 observações, de um total de 344 casos na base original. Foram descartadas observações em que algumas variáveis eram nulas ou não disponíveis. A tabela de dados contém oito diferentes variáveis, que incluem a espécie dos pinguins, a ilha em que foram avistados, medidas corporais, sexo, e ano de registro. Com base nessas 333 observações, procederemos nossas análises.
+
+***
+
+# Análise geral dos dados
+
+Há alguns pontos interessantes a serem observados a respeito de nossos dados. O primeiro deles é que há um certo equilíbrio entre os sexos dos pinguins na amostra analisada. São 165 pinguins fêmeas e 168 pinguins machos, o que nos permite uma série de comparações interessantes entre os dois sexos.
+
+```{r, echo = FALSE}
+pinguins <- penguins %>% tidyr::drop_na()
+```
+
+```{r, echo = FALSE}
+pinguins %>% 
+  ggplot() +
+  geom_bar(aes(x = sex, fill = sex))
+```
+
+Também é possível avaliarmos e compararmos os dados conforme a espécie dos pinguins. O *dataset* nos apresenta três diferentes espécies de pinguins: Adélie, Chinstrap e Gentoo. Como veremos, há profundas diferenças entre cada espécie no que tange às suas medidas corporais, por exemplo. Na amostra, temos a seguinte proporção para cada espécie:
+
+```{r, echo = FALSE}
+pinguins %>% 
+  count(species) %>% 
+  mutate(perc = (n/sum(n)*100))
+```
+
+Ou seja, os pinguins da espécie Adélie são a maioria entre os dados coletados, correspondendo a 43,8% (N = 146) do banco. Já os pinguins da espécie Chinstrap são minoritários, correspondendo a somente 20,4% (N = 68) dos dados. Mesmo assim, uma avaliação comparativa entre as espécies não só é possível, como é interessante para que tenhamos uma visão segmentada mais clara sobre as diferenças e semelhanças entre os indivíduos.
+
+Outro dado que vale ressaltar é que a amostra foi composta a partir de casos registrados em três anos distintos, de 2007 a 2009. O último desses anos é o que possui mais observações, conforme vemos no gráfico abaixo:
+
+```{r, echo = FALSE}
+pinguins %>% 
+  ggplot() +
+  geom_line(aes(x = year, color = "orange"), stat = "count")
+```
+
+Dadas as limitações dos dados de que dispomos, não é possível afirmar qualquer relação direta de causalidade, mas uma hipótese possível de ser traçada a partir deste incremento de observações é de que a população de pinguins tem migrado substancialmente para os locais monitorados pela estação de trabalho nos últimos anos. Entretanto, é possível também que as técnicas de observação e registro dos animais tenham se aprimorado e isso tenha levado a um aumento na documentação dos casos.
+
+# Diferenças entre os sexos
+
+Os indivíduos apresentam variações em suas medidas corporarias de acordo com o sexo. Os pinguins machos têm geralmente um comprimento e uma altura do bico maiores que os pinguins fêmeas. O tamanho das nadadeiras também é levemente maior. E a massa corporal é, dentre esses índices, aquele que mais acentuadamente varia em função do sexo. Na tabela e nos gráficos abaixo, é possível conferir essas variações em detalhes.
+
+```{r, echo = FALSE}
+pinguins %>%
+  group_by(sex) %>%
+  summarize(across(where(is.numeric), mean, na.rm = TRUE)) %>% 
+  select(sex, bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g)
+```
+
+```{r, echo = FALSE}
+#devtools::install_github("thomasp85/patchwork")
+library(patchwork)
+
+p1 <- pinguins %>%
+  group_by(sex) %>%
+  summarize(across(where(is.numeric), mean, na.rm = TRUE)) %>% 
+  select(sex, bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g) %>% 
+  ggplot() +
+  geom_bar(aes(x = sex, y = bill_length_mm, fill = sex), stat = "identity")
+
+p2 <- pinguins %>%
+  group_by(sex) %>%
+  summarize(across(where(is.numeric), mean, na.rm = TRUE)) %>% 
+  select(sex, bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g) %>% 
+  ggplot() +
+  geom_bar(aes(x = sex, y = bill_depth_mm, fill = sex), stat = "identity")
+
+p3 <- pinguins %>%
+  group_by(sex) %>%
+  summarize(across(where(is.numeric), mean, na.rm = TRUE)) %>% 
+  select(sex, bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g) %>% 
+  ggplot() +
+  geom_bar(aes(x = sex, y = flipper_length_mm, fill = sex), stat = "identity")
+
+p4 <- pinguins %>%
+  group_by(sex) %>%
+  summarize(across(where(is.numeric), mean, na.rm = TRUE)) %>% 
+  select(sex, bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g) %>% 
+  ggplot() +
+  geom_bar(aes(x = sex, y = body_mass_g, fill = sex), stat = "identity")
+
+(p1 | p2)/(p3 | p4)
+```
+
+# Diferença entre as espécies
+
+Como já apontado, existem três espécies de pinguins documentadas na amostra avaliada. Tais espécies apresentam diferenças significativas entre si. Abaixo, identificamos algumas dessas diferenças.
+
+![Ilustração estilizada de cada uma das três espécies analisadas neste relatório](~/Dropbox/aula12/images/lter_penguins.png)
+
+O dado que mais chama a atenção é que a espécie Gentoo é destacadamente aquela que tem mais massa corporal, ou seja, é mais pesada, e também aquela com as maiores medidas. Na comparação entre massa corporal e tamanho das nadadeiras, a espécie Gentoo aparece como aquela com maiores tendências nos padrões observados.
+
+```{r, echo = FALSE}
+pinguins %>% 
+  ggplot() +
+  geom_point(aes(x = body_mass_g, y = flipper_length_mm, color = species, shape = species))
+```
+
+A massa corporal da espécie Gentoo sugere que o tamanho dos indivíduos desta espécie é bastante superior aos das demais espécies. No histograma facetado abaixo, é possível comparar essas tendências.
+
+```{r, echo = FALSE}
+pinguins %>% 
+  ggplot() +
+  geom_histogram(aes(x = body_mass_g, fill = species)) +
+  facet_wrap(~species)
+```
+
+# Considerações finais
+
+Este relatório é apenas um exemplo do que é possível ser feito e apresentado com R Markdown. Naturalmente, a base de dados Palmer Penguins permite um conjunto muito maior de cruzamentos e visualizações de seus dados do que aquelas que apresentamos aqui neste relatório. Contudo, apesar dessas limitações, algumas conclusões são possíveis a partir dos gráficos e tabelas que dispomos acima.
+
+Em primeiro lugar, há um equilíbrio na contagem de indivíduos na amostra de acordo com os seus sexos. O número de pinguins machos é muito próximo do número de pinguins fêmeas. Apesar disso, as diferenças entre os sexos saltam aos olhos. Os pinguins machos são maiores e mais pesados que as fêmeas no geral, ainda que haja variações entre as espécies.
+
+No que tange às espécies, a espécie Adélie é a mais numerosa na amostra. Os pinguins desta espécie são também aqueles de menor massa corporal, variando entre 2,5kg e pouco mais de 4,5kg. Já os pinguins da espécie Gentoo são os mais pesados, podendo chegar a até 6,5kg.
+
+As comparações são interessantes para percebermos características que distinguem os indivíduos no geral e de acordo com suas espécies. Novos estudos sobre esses dados, porém, podem nos levar a conclusões mais precisas e aprofundadas.

@@ -1,0 +1,143 @@
+---
+title: "Introdução ao R Markdown"
+subtitle: Aprendendo R Markdown na prática
+author: Viktor Chagas, Universidade Federal Fluminense ^[Professor e pesquisador do
+  Programa de Pós-Graduação em Comunicação da Universidade Federal Fluminense. Doutor
+  em História, Política e Bens Culturais pelo Centro de Pesquisa e Documentação de
+  História Contemporânea do Brasil da Fundação Getulio Vargas. viktor@midia.uff.br]
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+abstract: |
+  Este é um exemplo de relatório de final de curso a ser entregue para a disciplina de Introdução à Análise de Pesquisa Quantitativa, semestre letivo 2020.2, na graduação em Estudos de Mídia.
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(palmerpenguins)
+library(ggplot2)
+```
+
+# R Markdown
+
+O R Markdown é uma sintaxe simples, baseada simultaneamente na linguagem de marcação Markdown e na linguagem estatística R. Os documentos escritos em R Markdown podem gerar arquivos em diversos formatos, entre eles, uma página HTML, um PDF, um documento MS Word ou até uma apresentação de slides. 
+
+Para criar um novo documento em R Markdown, abra seu ***R Studio***, e, em seguida, instale os dois pacotes abaixo, caso ainda não os tenha instalados:
+
+```
+install.packages("knitr")
+install.packages("rmarkdown")
+```
+
+Após a instalação, acesse o menu ***File***, e, depois, a opção ***New File*** e ***R Markdown***. Selecione o formato ***Documento***, preencha o título e o nome do autor, e marque o output desejado, se HTML, PDF ou documento Word. Um novo arquivo com a extensão *.Rmd* será aberto.
+
+Os documentos escritos em R Markdown devem obedecer a uma sintaxe específica. Você pode obter um resumo dessa sintaxe nesta *cheatsheet*: <https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf>. As principais marcações são as que seguem:
+
+## Formatação de texto
+```
+*itálico*   **negrito**
+
+_itálico_   __negrito__
+```
+*itálico*   **negrito**
+
+***
+
+## Headers
+```
+# Exemplo de Cabeçalho 1
+## Exemplo de Cabeçalho 2
+### Exemplo de Cabeçalho 3
+```
+# Exemplo de Cabeçalho 1
+## Exemplo de Cabeçalho 2
+### Exemplo de Cabeçalho 3
+
+***
+
+## Listas ordenadas e não-ordenadas
+```
+* Lista Não-Ordenada Item 1
+* Lista Não-Ordenada Item 2
+* Lista Não-Ordenada Item 3
+
+1. Lista Ordenada Item 1
+2. Lista Ordenada Item 2
+3. Lista Ordenada Item 3
+```
+* Lista Não-Ordenada
+
+1. Lista Ordenada
+
+***
+
+## Outras formatações
+```
+[Texto linkado](http://exemplo.com)
+
+> Citação
+
+Sobrescrito^2^
+
+~~strikethrough~~
+```
+[link para o gitHUB](http://github.com)
+
+> Citação
+
+sobrescrito^2^
+
+~~tachado~~
+
+***
+
+## Estrutura do R Markdown
+
+O código de um documento R Markdown geralmente possui um cabeçalho de metadados, chamado de *YAML Header*. Neste cabeçalho, você pode inserir informações como o título do documento, o nome do autor, a data e outras mais.
+
+Além do cabeçalho YAML, os documentos R Markdown se estruturam a partir de uma combinação entre texto simples (*body text*) e blocos de código (*code chunks*). Os *code chunks* são pequenos blocos de código em linguagem R utilizados para apresentar comandos ou resultados de funções no seu relatório, como gráficos e mapas.
+
+![Layout de um documento R Markdown](~/Dropbox/aula12/images/rmarkdown_layout.png)
+
+## Sintaxe
+
+Para inserir um *code chunk* em seu documento R Markdown, basta você utilizar o cabeçalho ` ```{ r codechunk}`, digitar `seu código`, e encerrar com o rodapé ` ``` `
+
+Por exemplo, se digitarmos ` ```{r pinguins}`, seguido de `summary(penguins)` e encerrarmos com ` ``` `, teremos o seguinte resultado:
+
+```{r pinguins}
+summary(penguins)
+```
+
+E, se quisermos desenhar um gráfico com esses dados, basta inserir o código referente a este gráfico no chunk, como abaixo:
+
+` ```{r grafico} `
+
+` penguins %>% ggplot() + geom_bar(aes(x = island), stat = "count") `
+
+` ```  `
+
+Veja só como ele será apresentado:
+
+```{r grafico}
+penguins %>% 
+  tidyr::drop_na() %>% 
+  ggplot() + geom_point(aes(x = body_mass_g, y = flipper_length_mm, 
+                            color = species))
+```
+
+Você também pode inserir comandos *inline* utilizando *backdrops* simples no decorrer de seu texto, para circundar linhas de comando como: `r knitr::inline_expr("seu código aqui")`. No nosso dataframe de pinguins, por exemplo, nós podemos calcular a quantidade de pinguins e inseri-la diretamente em nosso relatório, usando *backdrops* ao reder de `r knitr::inline_expr("sum(penguins)")`. Este tipo de uso é interessante para apresentar valores que variam em função de fórmulas específicas. No dataset de pinguins, por exemplo, temos **`r penguins %>% count()`** pinguins.
+
+Outro uso importante diz respeito ao parâmetro `echo = FALSE`, que você pode utilizar no cabeçalho de seu *code chunk* para prevenir a impressão do código R responsável por plotar gráficos e dados. Assim, você oculta o código e imprime apenas o gráfico ou os dados, como abaixo.
+
+```{r species, echo=FALSE}
+penguins %>% 
+  ggplot() +
+  geom_bar(aes(x = species, fill = species), stat = "count")
+```
+
+## Conversão
+
+Para finalizar o seu documento R Markdown, é preciso gerar o *output*. Você pode fazer isso clicando no botão **Knit** e selecionando, p.ex., **Knit to PDF**. O *output* será aberto em uma nova janela.
